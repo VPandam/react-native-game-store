@@ -1,13 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-native'
-import { View, StyleSheet, Image } from 'react-native'
+import { useNavigate } from 'react-router-native'
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import HouseImage from '../../assets/Home.png'
 import theme from '../theme'
 
 const Header = () => {
+  const navigate = useNavigate()
   return (
     <View style={styles.header}>
-      <Link to=''><Image style={{ height: 30, width: 30 }} source={HouseImage} /></Link>
+      <TouchableOpacity onPress={() => navigate('')}>
+        <Image style={{ height: 30, width: 30 }} source={HouseImage} />
+      </TouchableOpacity>
     </View>
   )
 }
