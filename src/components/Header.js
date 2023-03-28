@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-native'
 import { View, StyleSheet, Image } from 'react-native'
-import HouseImage from '../data/Home.png'
+import HouseImage from '../../assets/Home.png'
 import theme from '../theme'
 
 const Header = () => {

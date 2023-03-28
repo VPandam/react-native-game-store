@@ -1,44 +1,41 @@
-import React from 'react'
-import { useParams } from 'react-router-native'
-import StyledText from '../components/StyledText'
-import { ScrollView, View, Image, StyleSheet, FlatList } from 'react-native'
+import React, { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-native'
+import { ScrollView, View, StyleSheet } from 'react-native'
+import { addListenerToBackButton } from '../functions/functions'
 import { games } from '../data/games'
+import StyledText from '../components/StyledText'
+import HorizontalCarousel from '../components/GameDetail/HorizontalCarousel'
+import GameGenre from '../components/GameDetail/GameGenre'
+import GameDetailHeader from '../components/GameDetail/GameDetailHeader'
 
 const GameDetail = () => {
+  const navigate = useNavigate()
+  useEffect(() => {
+    return addListenerToBackButton(navigate)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const params = useParams()
   const id = params.id
-  const { name, company, genre, price, images, imageHead, description } = games.filter((game) => game.id === parseInt(id))[0]
+  const {
+    name,
+    company,
+    genre,
+    price,
+    images,
+    imageHead,
+    description
+  } = games.filter((game) => game.id === parseInt(id))[0]
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Image style={styles.imageHead} source={{ uri: imageHead }} />
-          <View>
-            <StyledText>{name}</StyledText>
-            <StyledText>{company}</StyledText>
-            <StyledText color='yellow'>{`${price}€`}</StyledText>
-          </View>
-        </View>
-        <View style={styles.genreContainer}>
-          {genre?.map((genreItem, key) => {
-            return (
-              <View key={key} style={{ flexDirection: 'row' }}>
-                {key === 0 ? null : <StyledText bold fontSize={25}> · </StyledText>}
-                <StyledText>{genreItem}</StyledText>
-              </View>
-            )
-          })}
-        </View>
-        <FlatList
-          horizontal
-          data={images}
-          style={styles.list}
-          contentContainerStyle={styles.contentList}
-          renderItem={(({ item: image }) => <Image
-            style={styles.images}
-            source={{ uri: image }}
-                                            />)}
+        <GameDetailHeader
+          company={company}
+          imageHead={imageHead}
+          price={price} name={name} styles={styles}
         />
+        <GameGenre genre={genre} styles={styles} />
+        <HorizontalCarousel images={images} styles={styles} />
         <View style={styles.description}>
           <StyledText>{description}</StyledText>
         </View>
